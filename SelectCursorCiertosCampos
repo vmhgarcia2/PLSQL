@@ -1,0 +1,14 @@
+DECLARE
+    CURSOR miCursor 
+        is select DEMO_CUSTOMERS.CUST_LAST_NAME,DEMO_CUSTOMERS.CUST_FIRST_NAME
+        from DEMO_CUSTOMERS;
+    cliente miCursor%ROWTYPE;    
+BEGIN
+    OPEN miCursor;
+        LOOP
+            FETCH miCursor INTO cliente;
+            EXIT WHEN miCursor%NOTFOUND;
+            DBMS_OUTPUT.put_line(cliente.CUST_LAST_NAME);
+        END LOOP;
+    CLOSE miCursor;
+END;

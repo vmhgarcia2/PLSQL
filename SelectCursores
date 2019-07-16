@@ -1,0 +1,14 @@
+DECLARE
+    cliente DEMO_CUSTOMERS%ROWTYPE;    
+    CURSOR miCursor 
+        is select *
+        from DEMO_CUSTOMERS;
+BEGIN
+    OPEN miCursor;
+        LOOP
+            FETCH miCursor INTO cliente;
+            EXIT WHEN miCursor%NOTFOUND;
+            DBMS_OUTPUT.put_line(CLIENTE.CUST_FIRST_NAME);
+        END LOOP;
+    CLOSE miCursor;
+END;

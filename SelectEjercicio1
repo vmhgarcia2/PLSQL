@@ -1,0 +1,25 @@
+DECLARE
+    CURSOR miCursor 
+        is select ORDER_TOTAL
+        from DEMO_ORDERS;
+    orden miCursor%ROWTYPE;    
+    sumaTotal number := 0;
+    total number;
+BEGIN
+    select count(*) into total from DEMO_ORDERS;
+   OPEN miCursor;
+        LOOP
+            FETCH miCursor INTO orden;
+            EXIT WHEN miCursor%NOTFOUND;
+            sumaTotal := sumaTotal + orden.ORDER_TOTAL;
+        END LOOP;
+    CLOSE miCursor;
+    DBMS_OUTPUT.put_line('La suma total de demo_orders es: ' || sumaTotal);
+    DBMS_OUTPUT.put_line('La media de demo_orders es: ' || sumatotal/total);
+    sumaTotal := 0;
+    for miOrden in miCursor loop
+        sumaTotal := sumaTotal + miOrden.ORDER_TOTAL;
+    end loop;
+    DBMS_OUTPUT.put_line('La suma total de demo_orders es: ' || sumaTotal);
+    DBMS_OUTPUT.put_line('La media de demo_orders es: ' || sumatotal/total);
+END;

@@ -1,0 +1,8 @@
+DECLARE
+    cliente DEMO_CUSTOMERS%ROWTYPE;
+BEGIN
+    select DEMO_CUSTOMERS.* into cliente from DEMO_CUSTOMERS  where customer_id = &id;
+    dbms_output.put_line('Nombre: ' || cliente.cust_first_name || ' ' || cliente.cust_last_name);
+    dbms_output.put_line('Dirección: ' || cliente.cust_street_address1 || ' ' ||  cliente.cust_street_address2);
+    dbms_output.put_line('Telefono: ' || cliente.phone_number1);
+END;

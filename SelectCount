@@ -1,0 +1,11 @@
+DECLARE
+    total number(3);
+    nombre_cliente demo_customers.cust_first_name%TYPE;
+    direccion_cliente demo_customers.cust_street_address1%TYPE;
+BEGIN
+    select count(*) into total from DEMO_CUSTOMERS;
+    select cust_first_name, cust_street_address1 
+        into nombre_cliente, direccion_cliente
+        from DEMO_CUSTOMERS where customer_id = &id;
+    dbms_output.put_line('Nombre: ' || nombre_cliente || '. Dirección:' || direccion_cliente);
+END;

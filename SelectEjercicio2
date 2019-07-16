@@ -1,0 +1,24 @@
+DECLARE
+    CURSOR miCursor 
+        is select ORDER_TOTAL, ORDER_ID
+        from DEMO_ORDERS;
+    orden miCursor%ROWTYPE;    
+    sumaTotal number := 0;
+    media number(10,2) := 0;
+BEGIN
+    OPEN miCursor;
+        LOOP
+            FETCH miCursor INTO orden;
+            EXIT WHEN miCursor%NOTFOUND;
+            sumaTotal := sumaTotal + orden.ORDER_TOTAL;
+        END LOOP;    
+    CLOSE miCursor;
+    OPEN miCursor;
+        LOOP
+            FETCH miCursor INTO orden;
+            EXIT WHEN miCursor%NOTFOUND;
+            media := sumaTotal/orden.ORDER_TOTAL;
+            DBMS_OUTPUT.put_line(orden.ORDER_ID || ' es: ' || media);
+        END LOOP;   
+    CLOSE miCursor; 
+END;

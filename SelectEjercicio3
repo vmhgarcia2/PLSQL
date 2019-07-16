@@ -1,0 +1,19 @@
+DECLARE
+    fecha date := '17/06/19';
+    CURSOR miCursor 
+        is select ORDER_TOTAL
+        from DEMO_ORDERS
+        where ORDER_TIMESTAMP>fecha;
+    orden miCursor%ROWTYPE;    
+    sumaTotal number := 0;
+    total number;
+BEGIN
+    select count(*) into total from DEMO_ORDERS where ORDER_TIMESTAMP > fecha;
+    sumaTotal := 0;
+    for miOrden in miCursor loop
+        sumaTotal := sumaTotal + miOrden.ORDER_TOTAL;
+    end loop;
+    
+    DBMS_OUTPUT.put_line('La suma total de demo_orders es: ' || sumaTotal);
+    DBMS_OUTPUT.put_line('La media de demo_orders es: ' || sumatotal/total);
+END;
