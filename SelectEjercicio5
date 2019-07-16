@@ -1,0 +1,23 @@
+--Número de compras por usuario
+DECLARE
+    CURSOR misUsuarios
+        is select USER_ID
+        from DEMO_USERS;
+    usuarios misUsuarios%ROWTYPE;
+    CURSOR misTickets (id number)
+        is select count(ORDER_TOTAL) AS NUM_COMPRAS, SUM(ORDER_TOTAL) as TOTAL
+        from DEMO_ORDERS
+        where USER_ID = id;
+    tickets misTickets%ROWTYPE;
+BEGIN
+    for usuario in misUsuarios loop
+        OPEN misTickets(usuario.USER_ID);
+            LOOP
+                FETCH misTickets INTO tickets;
+                EXIT WHEN misTickets%NOTFOUND;
+                DBMS_OUTPUT.PUT_LINE('Usuario: ' || usuario.USER_ID || '. Número de compras: ' || tickets.NUM_COMPRAS || '. Total compras: ' || tickets.TOTAL);                     
+            END LOOP;         
+        CLOSE misTickets;
+    end loop;
+    
+END;

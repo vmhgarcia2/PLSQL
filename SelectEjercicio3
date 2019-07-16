@@ -1,7 +1,7 @@
 DECLARE
-    fecha date := '17/06/19';
+    fecha date := '27/06/19';
     CURSOR miCursor 
-        is select ORDER_TOTAL
+        is select ORDER_TOTAL,ORDER_TIMESTAMP 
         from DEMO_ORDERS
         where ORDER_TIMESTAMP>fecha;
     orden miCursor%ROWTYPE;    
@@ -11,6 +11,7 @@ BEGIN
     select count(*) into total from DEMO_ORDERS where ORDER_TIMESTAMP > fecha;
     sumaTotal := 0;
     for miOrden in miCursor loop
+        DBMS_OUTPUT.put_line('Fecha: ' || miOrden.ORDER_TIMESTAMP);        
         sumaTotal := sumaTotal + miOrden.ORDER_TOTAL;
     end loop;
     

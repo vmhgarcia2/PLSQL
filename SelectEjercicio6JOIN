@@ -1,0 +1,16 @@
+--Número de compras por usuario
+DECLARE
+    CURSOR misUsuarios
+        IS SELECT 
+            DEMO_CUSTOMERS.CUSTOMER_ID, 
+            COUNT(DEMO_ORDERS.ORDER_ID) AS NUM_COMPRAS, 
+            CASE WHEN SUM(DEMO_ORDERS.ORDER_TOTAL)>0 THEN SUM(DEMO_ORDERS.ORDER_TOTAL) ELSE 0 END AS TOTAL
+        FROM DEMO_CUSTOMERS LEFT JOIN DEMO_ORDERS
+            ON DEMO_CUSTOMERS.CUSTOMER_ID = DEMO_ORDERS.CUSTOMER_ID
+            GROUP BY DEMO_CUSTOMERS.CUSTOMER_ID;
+BEGIN
+    for usuario in misUsuarios loop
+        DBMS_OUTPUT.PUT_LINE('Usuario: ' || usuario.CUSTOMER_ID || '. Número de compras: ' || usuario.NUM_COMPRAS || '. Total compras: ' || usuario.TOTAL);                     
+    end loop;
+    
+END;

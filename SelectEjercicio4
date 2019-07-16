@@ -1,0 +1,37 @@
+DECLARE
+    CURSOR misTickets
+        is select ORDER_ID
+        from DEMO_ORDERS;
+    tickets misTickets%ROWTYPE;
+    CURSOR misLineas (id number)
+        is select UNIT_PRICE, QUANTITY
+        from DEMO_ORDER_ITEMS
+        where ORDER_ID = id;
+    lineas misLineas%ROWTYPE;
+    precioTotal number(20,2) := 0;
+    cantidadTotal number := 0;
+    precioXProducto number(20,2) := 0;
+BEGIN
+    for ticket in misTickets loop
+        precioTotal := 0;
+        cantidadTotal := 0;
+        precioXproducto := 0;
+        OPEN misLineas(ticket.ORDER_ID);
+            DBMS_OUTPUT.PUT_LINE('Ticket nº' || ticket.ORDER_ID);   
+            LOOP
+                FETCH misLineas INTO lineas;
+                EXIT WHEN misLineas%NOTFOUND;
+                precioTotal := precioTotal + lineas.UNIT_PRICE*lineas.QUANTITY;
+                cantidadTotal := cantidadTotal + lineas.QUANTITY;
+                DBMS_OUTPUT.PUT_LINE('Precio unitario: ' || lineas.UNIT_PRICE || '. Cantidad: ' || lineas.QUANTITY);                     
+            END LOOP;
+            DBMS_OUTPUT.PUT_LINE('');           
+            DBMS_OUTPUT.PUT_LINE('Precio total: ' || precioTotal || '. Cantidad total: ' || cantidadTotal); 
+            precioXProducto := precioTotal/cantidadTotal;
+            DBMS_OUTPUT.PUT_LINE('');           
+            DBMS_OUTPUT.PUT_LINE('Precio medio por producto: ' || precioXProducto); 
+            DBMS_OUTPUT.PUT_LINE('');           
+        CLOSE misLineas;
+    end loop;
+    
+END;
