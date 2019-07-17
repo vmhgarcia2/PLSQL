@@ -1,0 +1,23 @@
+create or replace function mejorcliente return number as
+    miId DEMO_CUSTOMERS.CUSTOMER_ID%TYPE;
+    micompras NUMBER;
+    mitotal NUMBER;
+begin    
+    -- CURSOR misUsuarios IS 
+    SELECT DEMO_CUSTOMERS.CUSTOMER_ID AS ID, 
+    COUNT(DEMO_ORDERS.ORDER_ID) AS NUM_COMPRAS, 
+    CASE WHEN SUM(DEMO_ORDERS.ORDER_TOTAL)>0 THEN SUM(DEMO_ORDERS.ORDER_TOTAL) ELSE 0 END AS TOTAL
+    INTO miId, micompras, mitotal
+    FROM DEMO_CUSTOMERS LEFT JOIN DEMO_ORDERS
+    ON DEMO_CUSTOMERS.CUSTOMER_ID = DEMO_ORDERS.CUSTOMER_ID
+    WHERE ROWNUM = 1
+    GROUP BY DEMO_CUSTOMERS.CUSTOMER_ID
+    ORDER BY TOTAL DESC;
+    return miId;
+END;
+
+/
+
+begin
+    clg(mejorcliente);
+end;

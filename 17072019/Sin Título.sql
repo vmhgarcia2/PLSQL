@@ -1,0 +1,8 @@
+CREATE OR REPLACE PROCEDURE HelloWorld IS 
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Hello World 2');
+END;
+/
+BEGIN 
+    HelloWorld();
+END;
