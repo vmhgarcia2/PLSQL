@@ -5,8 +5,8 @@ BEGIN
     SELECT SUM(ORDER_TOTAL)
     INTO miSuma
     FROM DEMO_ORDERS
-    WHERE to_char(ORDER_TIMESTAMP, 'DD/MM/YY')>fecha1 
-    AND to_char(ORDER_TIMESTAMP, 'DD/MM/YY')<fecha2;
+    WHERE to_date(ORDER_TIMESTAMP, 'DD/MM/YY')>fecha1 
+    AND to_date(ORDER_TIMESTAMP, 'DD/MM/YY')<fecha2;
     
     RETURN miSuma;
 END;
