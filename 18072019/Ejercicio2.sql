@@ -1,0 +1,6 @@
+-- Clientes que no han comprado nada
+SELECT CUST_FIRST_NAME || ' ' || CUST_LAST_NAME "Nombre"
+FROM DEMO_CUSTOMERS Clientes 
+FULL OUTER JOIN DEMO_ORDERS Pedidos
+ON Pedidos.CUSTOMER_ID = Clientes.CUSTOMER_ID 
+WHERE Pedidos.CUSTOMER_ID IS NULL
